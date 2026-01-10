@@ -1,26 +1,22 @@
-from tkinter import *
+import tkinter as tk
+from tkinter import messagebox
+from ui.EntityEntry import EntityEntryWidget
+from ui.AddEntityWidget import AddEntityWidget
+from ui.EntityTable import EntityTable
+from logic import *
 
-okno=Tk()
 
+# data
+order = order()
+order._append(entity("Kobold", 24, -2))
+order._append(entity("Istota", 12, 4))
+order._append(entity("Smok", 200, 10))
+
+#  UI
+okno = tk.Tk()
 okno.title("Obsługa kolejki inicjatywa")
-okno.geometry("500x400")
+okno.geometry("600x400")
 
-ramka = Frame(okno)
-ramka.grid()
+entities_table = EntityTable(parent=okno, order=order)
 
-przycisk=Button(ramka)
-przycisk["text"] = "Kliknięto 0 razy"
-przycisk.grid()
-przycisk.licznik=0 #utworzenie atrybutu klasy
-
-def update():
-    przycisk.licznik += 1
-    przycisk["text"] = "Kliknieto " + str(przycisk.licznik) + " razy"
-przycisk["command"] = update #bierzemy naszą funkcję bez nawiasów
-
-etykieta = Label(ramka)
-etykieta["text"] = "To jest etykieta"
-etykieta.grid()
 okno.mainloop()
-
-
