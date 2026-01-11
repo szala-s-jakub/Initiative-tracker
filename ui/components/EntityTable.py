@@ -48,7 +48,9 @@ class EntityTable(tk.Frame):
         for widget in self.entity_widget_list:
             widget.destroy()
         self.entity_widget_list.clear()
-        for index, ent in enumerate(self.order):
+        for index, ent in enumerate(
+            sorted(self.order, key=lambda e: e.initiative, reverse=True)
+        ):
             ent_widget = EntityEntryWidget(
                 parent=self.entities_frame,
                 ent=ent,
