@@ -1,6 +1,6 @@
 import tkinter as tk
-from ui.AddEntityWidget import AddEntityWidget
-from ui.EntityEntry import EntityEntryWidget
+from ui.components.AddEntityWidget import AddEntityWidget
+from ui.components.EntityEntry import EntityEntryWidget
 
 
 class EntityTable(tk.Frame):
@@ -43,7 +43,7 @@ class EntityTable(tk.Frame):
         for widget in self.entity_widget_list:
             widget.destroy()
         self.entity_widget_list.clear()
-        for index, ent in enumerate(self.order.entities):
+        for index, ent in enumerate(self.order):
             ent_widget = EntityEntryWidget(
                 parent=self.entities_frame,
                 ent=ent,
@@ -53,9 +53,9 @@ class EntityTable(tk.Frame):
             self.entity_widget_list.append(ent_widget)
 
     def delete_entity(self, index):
-        self.order.entities.pop(index)
+        self.order.remove_at_index(index)
         self.refresh_entities()
 
     def roll_initiative(self):
-        self.order._roll_i_for_all()
+        self.order.roll_i_for_all()
         self.refresh_entities()

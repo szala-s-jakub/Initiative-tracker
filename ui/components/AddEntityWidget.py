@@ -31,7 +31,7 @@ class AddEntityWidget(tk.Frame):
             name = self.nameEntry.get()
             initiative = int(self.initiativeEntry.get())
             new_entity = entity(name, 10, initiative, 0)
-            self.order_object._append(new_entity)
+            self.order_object.append_entity(new_entity)
             self.onAdd()
         except ValueError:
             messagebox.showerror("Błąd", "Niepoprawne dane wejściowe")

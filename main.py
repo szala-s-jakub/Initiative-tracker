@@ -1,22 +1,14 @@
-import tkinter as tk
-from tkinter import messagebox
-from ui.EntityEntry import EntityEntryWidget
-from ui.AddEntityWidget import AddEntityWidget
-from ui.EntityTable import EntityTable
 from logic import *
+from ui.UI import init_ui
 
 
-# data
-order = order()
-order._append(entity("Kobold", 24, -2))
-order._append(entity("Istota", 12, 4))
-order._append(entity("Smok", 200, 10))
+if __name__ == "__main__":
 
-#  UI
-okno = tk.Tk()
-okno.title("Obsługa kolejki inicjatywa")
-okno.geometry("600x400")
+    # data
+    order = order()
+    order.append_entity(entity("Kobold", 24, -2))
+    order.append_entity(entity("Istota", 12, 4))
+    order.append_entity(entity("Smok", 200, 10))
 
-entities_table = EntityTable(parent=okno, order=order)
-
-okno.mainloop()
+    # UI
+    init_ui(order)

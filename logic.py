@@ -35,29 +35,39 @@ class entity:
 class order:
     def __init__(self, entities=None):
         if entities is None:
-            self.entities = []
+            self.__entities = []
         else:
-            self.entities = entities
+            self.__entities = entities
 
     def __getitem__(self, index):
-        if index < 0 or index >= len(self.entities):
+        if index < 0 or index >= len(self.__entities):
             raise IndexError("Index out of range")
-        return self.entities[index]
+        return self.__entities[index]
 
     def __len__(self):
-        return len(self.entities)
+        return len(self.__entities)
 
-    def _append(self, new_entity: entity):
-        self.entities.append(new_entity)
+    def __iter__(
+        self,
+    ):
+        return iter(self.__entities)
 
-    def _roll_i_for_all(self):
-        for entity in self.entities:
+    def append_entity(self, new_entity: entity):
+        self.__entities.append(new_entity)
+
+    def remove_at_index(self, index):
+        if index < 0 or index >= len(self.__entities):
+            raise IndexError("Index out of range")
+        del self.__entities[index]
+
+    def roll_i_for_all(self):
+        for entity in self.__entities:
             entity.roll_initiative()
 
-    def _display_order(self):
+    def display_order(self):
         print("Nr.", "Nazwa", "PW", "Inicjatywa")
-        for i in range(len(self.entities)):
-            print(i + 1, ". ", str(self.entities[i]), sep="")
+        for i in range(len(self.__entities)):
+            print(i + 1, ". ", str(self.__entities[i]), sep="")
         print()
 
 
@@ -66,8 +76,8 @@ if __name__ == "__main__":
     print(str(kobold))
     kobold.roll_initiative()
     test = order()
-    test._append(kobold)
-    test._append(entity("Istota", 12, 4))
-    test._display_order()
-    test._roll_i_for_all()
-    test._display_order()
+    test.append_entity(kobold)
+    test.append_entity(entity("Istota", 12, 4))
+    test.display_order()
+    test.roll_i_for_all()
+    test.display_order()
