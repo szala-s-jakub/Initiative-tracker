@@ -4,7 +4,7 @@ from ui.components.EntityEntry import EntityEntryWidget
 
 
 class EntityTable(tk.Frame):
-    def __init__(self, parent, order):
+    def __init__(self, parent, order, width=600):
         self.order = order
         self.entity_widget_list = []
         self.entities_frame = tk.Frame(parent)
@@ -15,15 +15,20 @@ class EntityTable(tk.Frame):
 
         # Nagłówki kolumn
         header_frame = tk.Frame(parent, relief="raised", borderwidth=1)
-        header_frame.grid(row=0, column=0, sticky="ew")
-        header_frame.columnconfigure(0, minsize=150)
-        header_frame.columnconfigure(1, minsize=150)
-        header_frame.columnconfigure(2, minsize=150)
-        header_frame.columnconfigure(3, minsize=150)
+        header_frame.grid(row=1, column=0, sticky="ew")
+
+        COLUMN_COUNT = 5
+        for i in range(COLUMN_COUNT):
+            header_frame.columnconfigure(i, minsize=width // COLUMN_COUNT)
+        # header_frame.columnconfigure(1, minsize=150)
+        # header_frame.columnconfigure(2, minsize=150)
+        # header_frame.columnconfigure(4, minsize=150)
+        # header_frame.columnconfigure(3, minsize=150)
 
         tk.Label(header_frame, text="Nazwa").grid(row=0, column=0)
-        tk.Label(header_frame, text="Bonus Inicjatywy").grid(row=0, column=1)
-        tk.Label(header_frame, text="Inicjatywa").grid(row=0, column=2)
+        tk.Label(header_frame, text="PW").grid(row=0, column=1)
+        tk.Label(header_frame, text="Bonus Inicjatywy").grid(row=0, column=2)
+        tk.Label(header_frame, text="Inicjatywa").grid(row=0, column=3)
 
         # Widget dodawania istot
         add_entity_widget = AddEntityWidget(
