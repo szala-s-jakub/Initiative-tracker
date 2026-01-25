@@ -1,4 +1,5 @@
 import tkinter as tk
+from logic import order
 from ui.components.AddEntityWidget import AddEntityWidget
 from ui.components.EntityEntry import EntityEntryWidget
 
@@ -6,12 +7,14 @@ from ui.components.EntityEntry import EntityEntryWidget
 class EntityTable(tk.Frame):
     def __init__(self, parent, order, width=600):
         self.order = order
+        self.index = 0
         self.entity_widget_list = []
         self.entities_frame = tk.Frame(parent)
         self.entities_frame.grid(row=2)
         # Konfiguracja kolumn aby istoty wyświetlały się równo
-        for i in range(4):
-            self.entities_frame.columnconfigure(i, minsize=120)
+        COLUMN_COUNT = 5
+        for i in range(COLUMN_COUNT):
+            self.entities_frame.columnconfigure(i, minsize=width // 10 // COLUMN_COUNT)
 
         # Nagłówki kolumn
         header_frame = tk.Frame(parent, relief="raised", borderwidth=1)
@@ -40,11 +43,16 @@ class EntityTable(tk.Frame):
         roll_button = tk.Button(
             parent, text="Rzuć inicjatywę", command=self.roll_initiative
         )
-        roll_button.grid(row=0, column=0)
+        roll_button.grid(row=0, column=1, sticky="e")
 
+        next_button = tk.Button(parent, text="Następna tura")
+        next_button.grid(row=0, column=2, sticky="e")
+        next_button["command"] = self.next_turn
         self.refresh_entities()  # Inicjalne wypełnienie tabeli
 
+
     def refresh_entities(self):
+        self.index = 0
         for widget in self.entity_widget_list:
             widget.destroy()
         self.entity_widget_list.clear()
@@ -66,3 +74,16 @@ class EntityTable(tk.Frame):
     def roll_initiative(self):
         self.order.roll_i_for_all()
         self.refresh_entities()
+    def next_turn(self):
+        # colors current to yellow
+        self.entity_widget_list[self.index].config(bg="yellow")
+        # colors children of widget to yellow
+        for child in self.entity_widget_list[self.index].winfo_children():
+            child.config(bg="yellow")
+        prev_index = (self.index - 1) % len(self.entity_widget_list)
+        self.entity_widget_list[prev_index].config(bg="SystemButtonFace")
+        for child in self.entity_widget_list[prev_index].winfo_children():
+            child.config(bg="SystemButtonFace")
+            
+        self.index = (self.index + 1) % len(self.entity_widget_list)
+

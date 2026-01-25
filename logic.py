@@ -4,6 +4,8 @@ from random import randint
 class entity:
     def __init__(self, name: str, max_hp, initiative_bonus, initiative=0):
         self.name = name
+        if max_hp < 1:
+            raise ValueError("Maksymalne PW musi być większe od 0")
         self.hp = max_hp
         self.hp = max_hp
         self.max_hp = max_hp
@@ -26,6 +28,8 @@ class entity:
         self.initiative = self.initiative_bonus + rzut
 
     def change_hp(self, new_hp):
+        if new_hp < 0:
+            new_hp = 0
         self.hp = new_hp
 
     def _clone(self):
@@ -38,7 +42,7 @@ class order:
             self.__entities = []
         else:
             self.__entities = entities
-
+        self.index = 0
     def __getitem__(self, index):
         if index < 0 or index >= len(self.__entities):
             raise IndexError("Index out of range")

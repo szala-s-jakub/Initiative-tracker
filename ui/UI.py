@@ -7,8 +7,8 @@ from logic import order
 
 def init_ui(order_object: order):
     root = tk.Tk()
-    root.title("Obsługa kolejki inicjatywa")
-    root.geometry("600x400")
+    root.title("Obsługa kolejki inicjatywy")
+    root.geometry("900x400")
 
     entities_table = EntityTable(parent=root, order=order_object)
 
