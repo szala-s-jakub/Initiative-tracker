@@ -56,5 +56,5 @@ class AddEntityWidget(tk.Frame):
                     new_entity = entity(name + " " + str(i+1), health, initiative, 0)
                     self.order_object.append_entity(new_entity)
             self.onAdd()
-        except ValueError:
-            messagebox.showerror("Błąd", "Niepoprawne dane wejściowe")
+        except ValueError as e:
+            messagebox.showerror("Błąd", str(e))
